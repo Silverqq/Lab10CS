@@ -1,10 +1,12 @@
-﻿using System;
+using System;
+
+public delegate void MyEventHandler(string value);
 
 class FirstClass
 {
     public string Name { get; set; }
 
-    public event EventHandler<EventArgs<string>> MyEvent;
+    public event MyEventHandler MyEvent;
 
     public void GenerateEvent()
     {
@@ -13,25 +15,15 @@ class FirstClass
 
     protected virtual void OnMyEvent(string name)
     {
-        MyEvent?.Invoke(this, new EventArgs<string>(name));
-    }
-}
-
-class EventArgs<T> : EventArgs
-{
-    public T Value { get; }
-
-    public EventArgs(T value)
-    {
-        Value = value;
+        MyEvent?.Invoke(name);
     }
 }
 
 class SecondClass
 {
-    public void HandleEvent(object sender, EventArgs<string> e)
+    public void HandleEvent(string name)
     {
-        Console.WriteLine($"Событие сгенерировано через объект: {e.Value}");
+        Console.WriteLine($"Событие сгенерировано через объект: {name}");
     }
 }
 
